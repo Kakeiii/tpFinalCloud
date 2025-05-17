@@ -6,19 +6,19 @@ function Actifs() {
 
     const [actifs, setActifs] = useState([]);
     const [isFocus, setIsFocus] = useState(false);
-
+    const API_URL = import.meta.env.API_URL || ""
     const addActif = {
-        Bancaire: "http://10.10.2.127:8888/api/actifs/addActif/Bancaire",
-        Credit: "http://10.10.2.127:8888/api/actifs/addActif/Credit",
-        Divers: "http://10.10.2.127:8888/api/actifs/addActif/Divers",
-        Epargnes: "http://10.10.2.127:8888/api/actifs/addActif/Epargnes",
-        Prets: "http://10.10.2.127:8888/api/actifs/addActif/Prets"
+        Bancaire: `http://${API_URL}:8888/api/actifs/addActif/Bancaire`,
+        Credit: `http://${API_URL}:8888/api/actifs/addActif/Credit`,
+        Divers: `http://${API_URL}:8888/api/actifs/addActif/Divers`,
+        Epargnes: `http://${API_URL}:8888/api/actifs/addActif/Epargnes`,
+        Prets: `http://${API_URL}:8888/api/actifs/addActif/Prets`
     };
 
     /*Patrick*/
     const loadActifs = async () => {
         try {
-            const result = await axios.get("http://10.10.2.127:8888/api/actifs/getActifs");
+            const result = await axios.get(`http://${API_URL}:8888/api/actifs/getActifs`);
             setActifs(result.data);
         } catch (error) {
             console.error("Error: ", error);
@@ -72,10 +72,10 @@ function Actifs() {
     const handleBlur = async (actifId, prop, val) => {
         try {
             if (prop === 'montant') {
-                await axios.put(`http://10.10.2.127:8888/api/actifs/modActifTotal/${actifId}`, { [prop]: parseFloat(val) });
+                await axios.put(`http://${API_URL}:8888/api/actifs/modActifTotal/${actifId}`, { [prop]: parseFloat(val) });
             }
             else {
-                await axios.put(`http://10.10.2.127:8888/api/actifs/modActifNom/${actifId}`, { [prop]: val });
+                await axios.put(`http://${API_URL}:8888/api/actifs/modActifNom/${actifId}`, { [prop]: val });
             }
             setIsFocus(false);
         }
@@ -89,7 +89,7 @@ function Actifs() {
         e.preventDefault();
         if (confirm("Êtes-vous sûr de vouloir supprimer cet actif?")) {
             try {
-                await axios.delete(`http://10.10.2.127:8888/api/actifs/deleteActif/${actifId}`);
+                await axios.delete(`http://${API_URL}:8888/api/actifs/deleteActif/${actifId}`);
                 loadActifs();
             }
             catch (error) {

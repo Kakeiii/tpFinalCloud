@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Login = ({ app }) => {
 
     const navigate = useNavigate()
-
+    const API_URL = import.meta.env.API_URL || ""
     /*Ta Anh*/
     const handleChange = async (e) => {
         app.setUser({ ...app.user, [e.target.name]: e.target.value });
@@ -17,7 +17,7 @@ const Login = ({ app }) => {
         e.preventDefault();
         try {
             const response = await axios.post(
-                `http://10.10.2.127:8888/api/user/signin/${app.user.username}/${app.user.mdp}`
+                `http://${API_URL}:8888/api/user/signin/${app.user.username}/${app.user.mdp}`
             );
             if (response.data) {
                 app.setAuth(true)

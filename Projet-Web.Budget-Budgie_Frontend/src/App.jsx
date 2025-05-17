@@ -20,6 +20,7 @@ import Transactions from "./pages/Transactions.jsx";
 function App() {
 
     /*Ta Anh*/
+    const API_URL = import.meta.env.API_URL || ""
     const [auth, setAuth] = useState(false);
     const [actifs, setActifs] = useState([]);
     const [valeurNette, setValeurNette] = useState([]);
@@ -48,15 +49,15 @@ function App() {
 
         /*Ta Anh*/
         async loadActifs() {
-            const result = await axios.get(`http://10.10.2.127:8888/api/actifs/getActifs`);
+            const result = await axios.get(`http://${API_URL}:8888/api/actifs/getActifs`);
             app.setActifs(result.data);
         },
         async loadValeurNette() {
-            const result = await axios.get(`http://10.10.2.127:8888/api/actifs/getValeurNette`);
+            const result = await axios.get(`http://${API_URL}:8888/api/actifs/getValeurNette`);
             app.setValeurNette(result.data);
         },
         async loadUser() {
-            const result = await axios.get(`http://10.10.2.127:8888/api/user/viewUser/1`)
+            const result = await axios.get(`http://${API_URL}:8888/api/user/viewUser/1`)
             app.setUser(result.data)
         },
 

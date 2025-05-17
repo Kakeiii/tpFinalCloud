@@ -7,12 +7,12 @@ function Transactions() {
     const [transactions, setTransactions] = useState([]);
     const [categories, setCategories] = useState([]);
     const [isFocus, setIsFocus] = useState(false)
-
+    const API_URL = import.meta.env.API_URL || ""
     /*Ta Anh*/
     const loadTransactions = async () => {
         try {
-            const transactionsResult = await axios.get("http://10.10.2.127:8888/api/transactions/getAllTransactions");
-            const categoriesResult = await axios.get("http://10.10.2.127:8888/api/budget/getBudget");
+            const transactionsResult = await axios.get(`http://${API_URL}:8888/api/transactions/getAllTransactions`);
+            const categoriesResult = await axios.get(`http://${API_URL}:8888/api/budget/getBudget`);
             setTransactions(transactionsResult.data);
             setCategories(categoriesResult.data);
         } catch (error) {
@@ -28,7 +28,7 @@ function Transactions() {
     const addNewTransaction = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://10.10.2.127:8888/api/transactions/addTransaction");
+            await axios.post(`http://${API_URL}:8888/api/transactions/addTransaction`);
             loadTransactions();
         }
         catch (error) {
@@ -65,11 +65,11 @@ function Transactions() {
     const handleBlur = async (id, prop, val) => {
         try {
             if (prop === "montant") {
-                await axios.put(`http://10.10.2.127:8888/api/transactions/modTransactionMontant/${id}`, {[prop]: parseFloat(val)});
+                await axios.put(`http://${API_URL}:8888/api/transactions/modTransactionMontant/${id}`, {[prop]: parseFloat(val)});
             } else if (prop === "detail") {
-                await axios.put(`http://10.10.2.127:8888/api/transactions/modTransactionDetail/${id}`, {[prop]: val})
+                await axios.put(`http://${API_URL}:8888/api/transactions/modTransactionDetail/${id}`, {[prop]: val})
             } else {
-                await axios.put(`http://10.10.2.127:8888/api/transactions/modTransactionDate/${id}`, {[prop]: val})
+                await axios.put(`http://${API_URL}:8888/api/transactions/modTransactionDate/${id}`, {[prop]: val})
             }
             setIsFocus(false);
         } catch (error) {
@@ -80,7 +80,7 @@ function Transactions() {
     /*Patrick*/
     const handleSelect = async (id, val) => {
         try {
-            await axios.put(`http://10.10.2.127:8888/api/transactions/modTransactionCategorie/${id}`, val,  {"headers": {"content-type": "application/json"}});
+            await axios.put(`http://${API_URL}:8888/api/transactions/modTransactionCategorie/${id}`, val,  {"headers": {"content-type": "application/json"}});
             loadTransactions();
         }
         catch (error) {
@@ -93,7 +93,7 @@ function Transactions() {
         e.preventDefault();
         if (confirm("Êtes-vous sûr de vouloir supprimer cette transaction?")) {
             try {
-                await axios.delete(`http://10.10.2.127:8888/api/transactions/deleteTransaction/${id}`);
+                await axios.delete(`http://${API_URL}:8888/api/transactions/deleteTransaction/${id}`);
                 loadTransactions();
             }
             catch (error) {

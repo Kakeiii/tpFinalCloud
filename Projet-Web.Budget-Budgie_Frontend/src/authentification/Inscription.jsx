@@ -11,7 +11,7 @@ function Inscription() {
         courriel: "",
         mdp: ""
     });
-
+    const API_URL = import.meta.env.API_URL || ""
     const navigate = useNavigate();
 
     const [success, setSuccess] = useState(false);
@@ -28,7 +28,7 @@ function Inscription() {
         e.preventDefault();
         try {
 
-            const registerResponse = await axios.post(`http://${}/api/user/createUser`, user);
+            const registerResponse = await axios.post(`http://${API_URL}:8888/api/user/createUser`, user);
             if (registerResponse.data) {
                 setSuccess(true);
                 navigate("/Login");

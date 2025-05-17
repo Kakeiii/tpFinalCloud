@@ -11,11 +11,11 @@ import axios from "axios";
 function Chart() {
 
     const [transactions, setTransactions] = useState();
-
+    const API_URL = import.meta.env.VITE_API_URL || ""
     /*Ta Anh*/
     const loadTransactions = async () => {
         try {
-            const transactionsResult = await axios.get("http://10.10.2.127:8888/api/transactions/getAllTransactions");
+            const transactionsResult = await axios.get(`http://${API_URL}:8888/api/transactions/getAllTransactions`);
             setTransactions(transactionsResult.data);
             console.log(transactionsResult);
         } catch (error) {

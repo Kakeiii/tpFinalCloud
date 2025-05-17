@@ -10,13 +10,13 @@ function Budget() {
     const [types, setTypes] = useState([]);
     const [isFocus, setIsFocus] = useState(false);
     const [montantUtilise, setMontantUtilise] = useState([]);
-
+    const API_URL = import.meta.env.API_URL || ""
     /*Patrick*/
     const loadBudgets = async () => {
         try {
-            const budgetResult = await axios.get("http://10.10.2.127:8888/api/budget/getBudget");
-            const typesResult = await axios.get("http://10.10.2.127:8888/api/budget/getUniqueTypes");
-            const montantResult = await axios.get("http://10.10.2.127:8888/api/transactions/getTotalByCategorie");
+            const budgetResult = await axios.get(`http://${API_URL}:8888/api/budget/getBudget`);
+            const typesResult = await axios.get(`http://${API_URL}:8888/api/budget/getUniqueTypes`);
+            const montantResult = await axios.get(`http://${API_URL}:8888/api/transactions/getTotalByCategorie`);
             setBudget(budgetResult.data);
             setTypes(typesResult.data);
             setMontantUtilise(montantResult.data);
@@ -33,7 +33,7 @@ function Budget() {
     const addBudget = async (e, type) => {
         e.preventDefault();
         try {
-            await axios.post(`http://10.10.2.127:8888/api/budget/addBudget/${type}`)
+            await axios.post(`http://${API_URL}:8888/api/budget/addBudget/${type}`)
             loadBudgets();
         }
         catch (error) {
@@ -72,10 +72,10 @@ function Budget() {
     const handleBlur = async (budgetId, prop, val) => {
         try {
             if (prop === 'montant') {
-                await axios.put(`http://10.10.2.127:8888/api/budget/modMontantBudget/${budgetId}`, { [prop]: parseFloat(val) });
+                await axios.put(`http://${API_URL}:8888/api/budget/modMontantBudget/${budgetId}`, { [prop]: parseFloat(val) });
             }
             else {
-                await axios.put(`http://10.10.2.127:8888/api/budget/modCategorieBudget/${budgetId}`, { [prop]: val });
+                await axios.put(`http://${API_URL}:8888/api/budget/modCategorieBudget/${budgetId}`, { [prop]: val });
             }
             setIsFocus(false);
         }
@@ -89,7 +89,7 @@ function Budget() {
         e.preventDefault();
         if (confirm("Êtes-vous sûr de vouloir supprimer cette catégorie?")) {
             try {
-                await axios.delete(`http://10.10.2.127:8888/api/budget/deleteBudget/${budgetId}`);
+                await axios.delete(`http://${API_URL}:8888/api/budget/deleteBudget/${budgetId}`);
                 loadBudgets();
             }
             catch (error) {
